@@ -21,10 +21,22 @@ try {
     app.use(express.json());
 
     // configuracion del cors 
+    const allowedOrigins = [
+        'https://cabins-booking-management-system.vercel.app',
+        'https://cabins-booking-management-system-9w3malaop.vercel.app', // nuevo dominio vercel generado
+    ];
+
     app.use(cors({
-    origin: FRONTEND_URL,
-    credentials: true
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+            } else {
+            callback(new Error('Not allowed by CORS'));
+            }
+        },
+        credentials: true,
     }));
+
     
     app.use('/api/auth', authRoutes);
     app.use('/api/user', userRoutes);
@@ -33,7 +45,9 @@ try {
 
     await sequelize.sync();
     
-    app.listen(PORT);
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+    });
 
     console.log(`Server listening on port ${PORT}`);
 } catch (error) {
