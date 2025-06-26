@@ -6,6 +6,8 @@ const UserBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const baseUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -13,7 +15,7 @@ const UserBookings = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/booking/user/${userId}`)
+    fetch(`${baseUrl}/api/booking/user/${userId}`)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {
@@ -37,7 +39,7 @@ const UserBookings = () => {
   const handleCancel = (bookingId) => {
     if (!window.confirm("¿Estás seguro que querés cancelar esta reserva?")) return;
 
-    fetch(`http://localhost:3000/api/booking/${bookingId}`, {
+    fetch(`${baseUrl}/api/booking/${bookingId}`, {
       method: "DELETE",
     })
       .then((res) => {

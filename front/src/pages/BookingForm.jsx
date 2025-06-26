@@ -9,9 +9,10 @@ export const BookingForm = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [alert, setAlert] = useState({ message: '', type: '' });
+    const baseUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/cabin/${id}`)
+        fetch(`${baseUrl}/api/cabin/${id}`)
             .then(res => res.json())
             .then(data => {
                 console.log("Cabaña recibida:", data);
@@ -49,7 +50,7 @@ export const BookingForm = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:3000/api/booking", {
+            const response = await fetch(`${baseUrl}/api/booking`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

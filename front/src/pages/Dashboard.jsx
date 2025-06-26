@@ -10,9 +10,10 @@ export const Dashboard = ({ userRole }) => {
   const [cabins, setCabins] = useState([]);
   const [alert, setAlert] = useState({ message: '', type: '' });
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/cabin")
+    fetch(`${baseUrl}/api/cabin`)
       .then((res) => res.json())
       .then((data) => setCabins(data))
       .catch((error) => {

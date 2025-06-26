@@ -5,9 +5,10 @@ export const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [alert, setAlert] = useState({ message: '', type: '' });
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/user")
+    fetch(`${baseUrl}/api/user`)
       .then(res => res.json())
       .then(data => setUsers(data))
       .catch(error => console.error("Error al obtener usuarios:", error));
@@ -25,7 +26,7 @@ export const AdminUsers = () => {
     if (!confirm) return;
 
     try {
-      await fetch(`http://localhost:3000/api/user/${id}`, {
+      await fetch(`${baseUrl}/api/user${id}`, {
         method: "DELETE",
       });
       setUsers(users.filter((user) => user.id !== id));
@@ -40,7 +41,7 @@ export const AdminUsers = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/api/user/${editingUser.id}`, {
+      const response = await fetch(`${baseUrl}/api/user${editingUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

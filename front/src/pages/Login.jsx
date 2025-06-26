@@ -9,15 +9,15 @@ import { Form, Button, Card, Container } from 'react-bootstrap';
 export const Login = ({ setIsLogged, setUserRole }) => {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({ email: false, password: false });
-    const [alert, setAlert] = useState({ message: '', type: '' }); // New alert state
+    const [alert, setAlert] = useState({ message: '', type: '' });
 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
 
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        // Clear any existing tokens/roles on component mount
         localStorage.removeItem("token");
         localStorage.removeItem("role");
         localStorage.removeItem("userId");
@@ -26,15 +26,14 @@ export const Login = ({ setIsLogged, setUserRole }) => {
     useEffect(() => {
         if (alert.message) {
             const timeout = setTimeout(() => {
-                // If it's a success alert, navigate after the display time
                 if (alert.type === 'success') {
                     navigate("/Dashboard");
                 }
-                setAlert({ message: '', type: '' }); // Clear the alert
-            }, 3000); // Alert visible for 3 seconds
+                setAlert({ message: '', type: '' }); 
+            }, 3000); 
             return () => clearTimeout(timeout);
         }
-    }, [alert, navigate]); // Add navigate to dependency array
+    }, [alert, navigate]);
 
     const handleChange = (e) => {
         setFormData({
@@ -58,9 +57,9 @@ export const Login = ({ setIsLogged, setUserRole }) => {
             }
             return;
         } else {
-            setErrors({}); // Clear validation errors if no issues
+            setErrors({}); 
             try {
-                const response = await fetch("http://localhost:3000/api/auth/login", {
+                const response = await fetch(`${baseUrl}/api/auth/login`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

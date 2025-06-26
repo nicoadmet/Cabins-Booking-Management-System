@@ -13,6 +13,7 @@ export const Register = () => {
     const passwordRef = useRef(null);
 
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         localStorage.removeItem("token");
@@ -58,7 +59,7 @@ export const Register = () => {
         } else {
             setErrors({});
             try {
-                const response = await fetch("http://localhost:3000/api/auth/register", {
+                const response = await fetch(`${baseUrl}/api/auth/register`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

@@ -14,10 +14,11 @@ export const AdminCabins = () => {
     imageUrl: '' 
   })
   const [showForm, setShowForm] = useState(false);
+  const baseUrl = import.meta.env.VITE_API_URL;
 
 
   useEffect(() => {
-  fetch("http://localhost:3000/api/cabin")
+  fetch(`${baseUrl}/api/cabin`)
     .then(res => res.json())
     .then(data => setCabins(data))
     .catch(error => console.error("Error al obtener cabañas:", error));
@@ -51,14 +52,14 @@ export const AdminCabins = () => {
       let response;
       //editar cabaña
       if (editingCabin) {
-        response = await fetch(`http://localhost:3000/api/cabin/${editingCabin.id}`, {
+        response = await fetch(`${baseUrl}/api/cabin/${editingCabin.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newCabin)
         });
       } else {
           //agregar cabaña 
-          response = await fetch("http://localhost:3000/api/cabin", {
+          response = await fetch(`${baseUrl}/api/cabin/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newCabin),
@@ -102,7 +103,7 @@ export const AdminCabins = () => {
     if (!confirm) return;
 
     try {
-      await fetch(`http://localhost:3000/api/cabin/${id}`, {
+      await fetch(`${baseUrl}/api/cabin/${id}`, {
         method: "DELETE",
       });
       setCabins(cabins.filter((cabin) => cabin.id !==id));

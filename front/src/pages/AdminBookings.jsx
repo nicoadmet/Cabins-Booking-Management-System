@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+
 export const AdminBookings = () => {
   const [bookings, setBooking] = useState([]);
   const [editingBooking, setEditingBooking] = useState(null);
   const [alert, setAlert] = useState({ message: '', type: '' });
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/booking")
+    fetch(`${baseUrl}/api/booking`)
       .then(res => res.json())
       .then(data => setBooking(data))
       .catch(error => console.error("Error al obtener reservas:", error));
@@ -25,7 +27,7 @@ export const AdminBookings = () => {
     if (!confirm) return;
 
     try {
-      await fetch(`http://localhost:3000/api/booking/${id}`, {
+      await fetch(`${baseUrl}/api/booking/${id}`, {
         method: "DELETE",
       });
       setBooking(bookings.filter((booking) => booking.id !== id));
@@ -45,7 +47,7 @@ export const AdminBookings = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/booking/${editingBooking.id}`, {
+      const response = await fetch(`${baseUrl}/api/booking/${editingBooking.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
