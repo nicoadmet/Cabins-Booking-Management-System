@@ -15,12 +15,14 @@ import "./models/Booking.js";
 
 const app = express();
 
+const FRONTEND_URL = 'https://cabins-booking-management-system.vercel.app';
+
 try {
     app.use(express.json());
 
     // configuracion del cors 
     app.use(cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true
     }));
     
