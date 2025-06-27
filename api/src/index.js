@@ -15,16 +15,18 @@ import "./models/Booking.js";
 
 const app = express();
 
-const FRONTEND_URL = 'https://cabins-booking-management-system.vercel.app';
+// const FRONTEND_URL = 'https://cabins-booking-management-system.vercel.app' || 'http://localhost:5173';
 
 try {
     app.use(express.json());
 
     // configuracion del cors 
-    const allowedOrigins = [
-        'https://cabins-booking-management-system.vercel.app',
-        'https://cabins-booking-management-system-9w3malaop.vercel.app', // nuevo dominio vercel generado
-    ];
+    const allowedOrigins = process.env.NODE_ENV === 'development'
+        ? ['http://localhost:5173']
+        : [
+            'https://cabins-booking-management-system.vercel.app',
+            'https://cabins-booking-management-system-9w3malaop.vercel.app',
+            ];
 
     app.use(cors({
         origin: function (origin, callback) {

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { validateRegister } from "../utils/ValidationsRegister";
 import { useNavigate, Link } from "react-router-dom";
 import { Form, Button, Card, Container } from 'react-bootstrap';
+import BackgroundImg from '../assets/background-img.png';
 
 export const Register = () => {
     const [formData, setFormData] = useState({ name: "", email: "", password: "" });
@@ -83,7 +84,19 @@ export const Register = () => {
     };
 
     return (
-        <div className="position-relative">
+        <div className="position-relative"
+            style={{
+                backgroundImage:`url(${BackgroundImg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px',
+            }}
+        >
             {alert.message && (
                 <div
                     className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}

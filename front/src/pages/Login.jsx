@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { validateLogin } from "../utils/ValidationsLogin";
 import { jwtDecode } from "jwt-decode";
+import BackgroundImg from '../assets/background-img.png';
 
 import { Form, Button, Card, Container } from 'react-bootstrap';
 
@@ -93,7 +94,19 @@ export const Login = ({ setIsLogged, setUserRole }) => {
     };
 
     return (
-        <div className="position-relative"> {/* Added position-relative to contain fixed alerts */}
+        <div className="position-relative"
+            style={{
+                backgroundImage:`url(${BackgroundImg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px',
+            }}
+        >
             {alert.message && (
                 <div
                     className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
@@ -106,7 +119,7 @@ export const Login = ({ setIsLogged, setUserRole }) => {
 
             <Container
                 className="d-flex justify-content-center align-items-center"
-                style={{ height: '100vh', width: '100vh' }}
+                style={{ height: '100vh', width: '100vh',  }}
             >
                 <div className="position-absolute top-0 start-0 m-4">
                     <Link to="/" style={{ textDecoration: 'none' }}>&larr; Volver</Link>
@@ -125,7 +138,7 @@ export const Login = ({ setIsLogged, setUserRole }) => {
                                     ref={emailRef}
                                     onChange={handleChange}
                                     value={formData.email}
-                                    isInvalid={!!errors.email} // Add isInvalid prop for Bootstrap styling
+                                    isInvalid={!!errors.email} 
                                 />
                                 {errors.email && (
                                     <Form.Text className="text-danger">{errors.email}</Form.Text>
@@ -141,7 +154,7 @@ export const Login = ({ setIsLogged, setUserRole }) => {
                                     ref={passwordRef}
                                     onChange={handleChange}
                                     value={formData.password}
-                                    isInvalid={!!errors.password} // Add isInvalid prop for Bootstrap styling
+                                    isInvalid={!!errors.password} 
                                 />
                                 {errors.password && (
                                     <Form.Text className="text-danger">{errors.password}</Form.Text>
