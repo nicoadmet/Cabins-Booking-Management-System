@@ -15,7 +15,6 @@ import "./models/Booking.js";
 
 const app = express();
 
-// const FRONTEND_URL = 'https://cabins-booking-management-system.vercel.app' || 'http://localhost:5173';
 
 try {
     app.use(express.json());
@@ -26,7 +25,8 @@ try {
         : [
             'https://cabins-booking-management-system.vercel.app',
             'https://cabins-booking-management-system-9w3malaop.vercel.app',
-            ];
+            'https://cabins-booking-managemen-git-d29d6a-nicolas-s-projects-ffbfddba.vercel.app'
+        ];
 
     app.use(cors({
         origin: function (origin, callback) {

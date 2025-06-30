@@ -7,12 +7,9 @@ export const CustomNavbar  = ({ userRole }) => {
   
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("role"); 
     localStorage.removeItem("userId");
     navigate("/login");               
   };
-
-  const role = localStorage.getItem("role");
 
   return (
     <Navbar bg="light" expand="lg" sticky="top">
@@ -29,7 +26,7 @@ export const CustomNavbar  = ({ userRole }) => {
           </Nav>
 
           <div className="d-flex align-items-center gap-2">
-            {(userRole === "admin" || role === "admin") && (
+            {(userRole === "admin") && (
               <Link to="/adminPanel">
                 <Button variant="warning" size="sm">
                   Panel de Administración

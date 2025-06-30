@@ -20,7 +20,6 @@ export const Login = ({ setIsLogged, setUserRole }) => {
 
     useEffect(() => {
         localStorage.removeItem("token");
-        localStorage.removeItem("role");
         localStorage.removeItem("userId");
     }, []);
 
@@ -28,7 +27,7 @@ export const Login = ({ setIsLogged, setUserRole }) => {
         if (alert.message) {
             const timeout = setTimeout(() => {
                 if (alert.type === 'success') {
-                    navigate("/Dashboard");
+                    navigate("/dashboard");
                 }
                 setAlert({ message: '', type: '' }); 
             }, 3000); 
@@ -49,14 +48,14 @@ export const Login = ({ setIsLogged, setUserRole }) => {
 
         if (Object.keys(validationsErrors).length > 0) {
             setErrors(validationsErrors);
-            setAlert({ message: "Por favor, corrige los errores del formulario.", type: "danger" }); // Alert for validation errors
+            setAlert({ message: "Por favor, corrige los errores del formulario.", type: "danger" });
 
             if (validationsErrors.email) {
                 emailRef.current.focus();
             } else if (validationsErrors.password) {
                 passwordRef.current.focus();
             }
-            return;
+            return; 
         } else {
             setErrors({}); 
             try {
@@ -71,20 +70,19 @@ export const Login = ({ setIsLogged, setUserRole }) => {
                 if (!response.ok) {
                     const errorData = await response.json();
                     setAlert({ message: "Error al iniciar sesión: " + errorData.message, type: "danger" });
-                    return; // Stop execution on error
+                    return;
                 }
 
                 const data = await response.json();
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("userId", data.user.id);
 
-                // Extract role from the token
                 const decoded = jwtDecode(data.token);
-                localStorage.setItem("role", decoded.role);
                 setUserRole(decoded.role);
 
                 setIsLogged(true);
-                setAlert({ message: "Inicio de sesión exitoso", type: "success" }); // Set success alert, navigation happens in useEffect
+                setAlert({ message: "Inicio de sesión exitoso", type: "success" });
+                
 
             } catch (error) {
                 console.error("Error al hacer login:", error);

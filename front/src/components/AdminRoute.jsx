@@ -1,13 +1,22 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
-function AdminRoute({ children }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+const AdminRoute = () => {
+  const token = localStorage.getItem("token");
+  if (!token) return <Navigate to="/login" />;
 
-  if (!user || user.role !== "admin") {
-    return <Navigate to="/" replace />;
+  try {
+    const decoded = jwtDecode(token);
+
+    if (decoded.role !== "admin") {
+      return <Navigate to="/dashboard" />;
+    }
+
+    return <Outlet />;
+  } catch (err) {
+    console.error("Token inválido:", err);
+    return <Navigate to="/login" />;
   }
-
-  return children;
 }
 
-export default AdminRoute;
+export default AdminRoute
