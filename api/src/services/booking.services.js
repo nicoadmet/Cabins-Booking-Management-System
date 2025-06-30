@@ -1,5 +1,6 @@
 import { Booking } from "../models/Booking.js";
 import { Cabin } from "../models/Cabin.js";
+import { Op } from "sequelize";
 
 export const getAllBookings = async (req, res) => {
    const bookings = await Booking.findAll();
@@ -27,23 +28,96 @@ export const getBookingsByUser = async (req, res) => {
 };
 
 export const updateBooking = async (req, res) => {
-    const { startDate, endDate } = req.body;
-    const { id } = req.params;
-    const booking = await Booking.findByPk(id);
-    if (!booking) {
-      return res.status(404).send({message: "Reserva no encontrada"});
-    }
-    await booking.update({
-      startDate, endDate
-    });
+  const { startDate, endDate } = req.body;
 
-    res.json(booking);
+  //validar que no sea una fecha pasada
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (start < today || end < today) {
+    return res.status(400).json({
+      message: "No se puede reservar en fechas pasadas.",
+    });
+  }
+
+  if (end < start) {
+    return res.status(400).json({
+      message: "La fecha de fin no puede ser anterior a la fecha de inicio.",
+    });
+  }    
+
+  const { id } = req.params;
+  const booking = await Booking.findByPk(id);
+  if (!booking) {
+    return res.status(404).send({message: "Reserva no encontrada"});
+  }
+  await booking.update({
+    startDate, endDate
+  });
+
+  res.json(booking);
 }
 
 export const createBooking = async (req, res) => {
   const { startDate, endDate, userId, cabinId } = req.body;
 
   try {
+    //validar que no sea una fecha pasada
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (start < today || end < today) {
+      return res.status(400).json({
+        message: "No se puede reservar en fechas pasadas.",
+      });
+    }
+
+    if (end < start) {
+      return res.status(400).json({
+        message: "La fecha de fin no puede ser anterior a la fecha de inicio.",
+      });
+    }
+
+    //validar fechas superpuestas
+    const overlappingBooking = await Booking.findOne({
+      where: {
+        cabinId,
+        [Op.or]: [
+          {
+            startDate: {
+              [Op.between]: [startDate, endDate],
+            },
+          },
+          {
+            endDate: {
+              [Op.between]: [startDate, endDate],
+            },
+          },
+          {
+            [Op.and]: [
+              {
+                startDate: { [Op.lte]: startDate },
+              },
+              {
+                endDate: { [Op.gte]: endDate },
+              },
+            ],
+          },
+        ],
+      },
+    })
+    if (overlappingBooking) {
+      return res.status(409).json({
+        message: "Ya existe una reserva para esa cabaña en las fechas seleccionadas."
+      })
+    }
+
     const newBooking = await Booking.create({
       startDate, endDate, userId, cabinId
     });
