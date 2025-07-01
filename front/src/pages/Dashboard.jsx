@@ -5,6 +5,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import naturalezaImg from '../assets/Naturaleza.png';
 import comodidadImg from '../assets/Comodidad.png';
 import atencionImg from '../assets/Atencion.png';
+import Footer from "../components/Footer";
 
 export const Dashboard = ({ userRole }) => {
   const [cabins, setCabins] = useState([]);
@@ -167,6 +168,12 @@ export const Dashboard = ({ userRole }) => {
                   No somos un hotel de lujo, pero tampoco una cabaña improvisada. Apostamos a lo rústico con estilo:
                   espacios cálidos, bien cuidados y con todo lo que necesitás. Si buscás comodidad sin perder el encanto natural, este es tu lugar.
                 </p>
+
+                <h5 className="subtitulo mt-4 mb-2">Nuestra esencia</h5>
+                <p className="text-muted fs-6">
+                  Creemos en las pequeñas cosas: en el sonido del viento entre los árboles, en una noche estrellada junto al fuego, en un mate compartido sin apuros.
+                  Nuestra esencia está en esos momentos simples que se vuelven inolvidables. Por eso, cuidamos cada detalle para que vivas algo más que una estadía: una experiencia.
+                </p>
               </div>
             </Col>
           </Row>
@@ -264,7 +271,7 @@ export const Dashboard = ({ userRole }) => {
               </Card>
             </Col>
 
-            <Col md={6}>
+            <Col md={6} className="mt-4 mt-md-0">
               <div style={{ width: "100%", height: "100%", minHeight: "400px", borderRadius: "8px", overflow: "hidden", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2137.72276960966!2d-71.67432011558017!3d-40.73570078801973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9610c7002875b2d1%3A0x7df928ea2b33f54a!2sVilla%20la%20Angostura%2CNeuqu%C3%A9n%2CPatagonia%20Argentina!5e0!3m2!1ses!2sar!4v1750380149488!5m2!1ses!2sar"
@@ -283,10 +290,12 @@ export const Dashboard = ({ userRole }) => {
             flex: 1;
             height: 2px;
             background-color: #2c3e50;
-            max-width: 500px;
+            max-width: 600px;
           }
         `}</style>
       </section>
+
+      <Footer/>
     </div>
   )
 }
