@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
-import PublicHome from "./pages/PublicHome";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import UserBookings from "./pages/UserBookings";
@@ -13,7 +12,6 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminCabins from "./pages/AdminCabins";
 import AdminBookings from "./pages/AdminBookings";
 
-import Protected from "./components/Protected";
 import AdminRoute from "./components/AdminRoute";
 
 function App() {
@@ -24,18 +22,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Rutas públicas */}
-        <Route path='/' element={<PublicHome />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/' element={<Dashboard userRole={userRole} isLogged={isLogged}/>} />
         <Route path='/login' element={
           <Login setIsLogged={setIsLogged} setUserRole={setUserRole} />
         } />
 
-        {/* Rutas protegidas para usuarios logueados */}
-        <Route element={<Protected isLogged={isLogged} />}>
-          <Route path='/dashboard' element={<Dashboard userRole={userRole} />} />
-          <Route path='/bookings' element={<UserBookings />} />
-          <Route path='/BookingForm/:id' element={<BookingForm />} />
-        </Route>
+        <Route path='/bookings' element={<UserBookings />} />
+        <Route path='/BookingForm/:id' element={<BookingForm />} />
 
         {/* Rutas exclusivas para admin */}
         <Route element={<AdminRoute />}>

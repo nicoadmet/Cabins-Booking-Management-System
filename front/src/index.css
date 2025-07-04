@@ -39,7 +39,6 @@
 .content-box {
   width: 100%;
   max-width: 700px;
-  background-color: rgba(255, 255, 255, 0.85);
   padding: 40px;
   border-radius: 12px;
   text-align: center;
@@ -86,9 +85,11 @@
 }
 
 /* ===== RESPONSIVE ===== */
+/* Dashboard Home */
 @media (max-width: 768px) {
   .bg-home {
     flex-direction: column;
+    background-position: 0%;
   }
 
   .left-container,
@@ -98,26 +99,19 @@
     height: auto;
   }
 
-  .right-container {
-    justify-content: center;
-    padding: 40px 20px;
-  }
-
   .content-box {
     max-width: 100%;
-    padding: 30px 20px;
+    padding: 10px 10px;
   }
 
   .content-box h1 {
     font-size: 2rem;
+    color: rgb(255, 255, 255);
   }
 
   .content-box p {
     font-size: 1rem;
+    color: white;
   }
 
-  .button-group {
-    flex-direction: column;
-    gap: 12px;
-  }
 }

@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Card, Button, Nav } from "react-bootstrap";
+
 import CustomNavbar from "../components/CustomNavbar ";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import Footer from "../components/Footer";
+
 import naturalezaImg from '../assets/Naturaleza.png';
 import comodidadImg from '../assets/Comodidad.png';
 import atencionImg from '../assets/Atencion.png';
-import Footer from "../components/Footer";
+import BackgroundHomeImg from '../assets/bg-home.png';
 
-export const Dashboard = ({ userRole }) => {
+export const Dashboard = ({ userRole, isLogged }) => {
   const [cabins, setCabins] = useState([]);
   const [alert, setAlert] = useState({ message: '', type: '' });
   const navigate = useNavigate();
@@ -40,8 +43,6 @@ export const Dashboard = ({ userRole }) => {
 
   return (
     <div>
-      <CustomNavbar userRole={userRole} />
-
       {alert.message && (
         <div
           className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
@@ -51,6 +52,24 @@ export const Dashboard = ({ userRole }) => {
           {alert.message}
         </div>
       )}
+
+      <CustomNavbar userRole={userRole} isLogged={isLogged} />
+
+      <div className="bg-home" style={{ backgroundImage: `url(${BackgroundHomeImg})` }}>
+      <div className="left-container"></div>
+
+      <div className="right-container">
+        <div className="content-box">
+          <h1 className="fw-bold">Bienvenido a EcoCabañas</h1>
+          <p>Explorá nuestras cabañas ecológicas.</p>
+          <div className="button-group">
+            <Nav.Link href="#cabañas">
+              <Button variant="outline-primary">Explorar Más</Button>
+            </Nav.Link>
+          </div>
+        </div>
+      </div>
+    </div>
 
       <section id="cabañas" style={{ padding: "4rem 0", minHeight: "100vh" }}>
         <Container>
@@ -83,7 +102,8 @@ export const Dashboard = ({ userRole }) => {
                       Precio por noche: ${cabin.pricePerNight}
                     </Card.Text>
                     <Button
-                      className="btn-primary mt-auto"
+                      className="mt-auto"
+                      variant="outline-primary"
                       onClick={() => handleReserve(cabin.id, cabin.isAvailable)}
                     >
                       Reservar

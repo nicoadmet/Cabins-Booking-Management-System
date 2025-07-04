@@ -1,8 +1,8 @@
 import { Button, Container, Nav, Navbar} from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Links, useNavigate } from 'react-router-dom';
 
 
-export const CustomNavbar  = ({ userRole }) => {
+export const CustomNavbar  = ({ userRole, isLogged }) => {
   const navigate = useNavigate();
   
   const handleLogout = () => {
@@ -33,9 +33,23 @@ export const CustomNavbar  = ({ userRole }) => {
                 </Button>
               </Link>
             )}
-            <Button onClick={handleLogout} variant="outline-danger" size="sm" >
-              Cerrar sesión
-            </Button>
+            {isLogged 
+            ? <Button onClick={handleLogout} variant="outline-danger" size="sm" >
+                Cerrar sesión
+              </Button>
+            : <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <Link to="/login">
+                  <Button className='btn-primary' size="sm">
+                    Iniciar Sesión
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button variant="outline-primary" size="sm">
+                    Registrarse
+                  </Button>
+                </Link>
+              </div> 
+            }
           </div>
         </Navbar.Collapse>
       </Container>

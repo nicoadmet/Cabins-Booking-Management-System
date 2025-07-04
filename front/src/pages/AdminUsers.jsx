@@ -26,7 +26,7 @@ export const AdminUsers = () => {
     if (!confirm) return;
 
     try {
-      await fetch(`${baseUrl}/api/user${id}`, {
+      await fetch(`${baseUrl}/api/user/${id}`, {
         method: "DELETE",
       });
       setUsers(users.filter((user) => user.id !== id));

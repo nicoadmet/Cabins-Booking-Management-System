@@ -62,7 +62,7 @@ const UserBookings = () => {
   return (
     <div className="container py-5">
       <div className="position-absolute top-0 start-0 m-4">
-        <Link to="/dashboard" style={{ textDecoration: "none" }}>
+        <Link to="/" style={{ textDecoration: "none" }}>
           &larr; Volver
         </Link>
       </div>

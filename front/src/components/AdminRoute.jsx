@@ -9,7 +9,7 @@ const AdminRoute = () => {
     const decoded = jwtDecode(token);
 
     if (decoded.role !== "admin") {
-      return <Navigate to="/dashboard" />;
+      return <Navigate to="/" />;
     }
 
     return <Outlet />;

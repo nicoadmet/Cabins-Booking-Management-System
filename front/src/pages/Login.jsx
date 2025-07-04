@@ -27,7 +27,7 @@ export const Login = ({ setIsLogged, setUserRole }) => {
         if (alert.message) {
             const timeout = setTimeout(() => {
                 if (alert.type === 'success') {
-                    navigate("/dashboard");
+                    navigate("/");
                 }
                 setAlert({ message: '', type: '' }); 
             }, 3000); 
