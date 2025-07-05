@@ -101,6 +101,7 @@ export const AdminBookings = () => {
               <th>Id</th>
               <th>Fecha inicio</th>
               <th>Fecha fin</th>
+              <th>Total</th>
               <th>Id Usuario</th>
               <th>Id Cabaña</th>
               <th>Acciones</th>
@@ -112,6 +113,7 @@ export const AdminBookings = () => {
                 <td>{booking.id}</td>
                 <td>{booking.startDate}</td>
                 <td>{booking.endDate}</td>
+                <td>{booking.totalPrice}</td>
                 <td>{booking.userId}</td>
                 <td>{booking.cabinId}</td>
                 <td>

@@ -10,7 +10,7 @@ import comodidadImg from '../assets/Comodidad.png';
 import atencionImg from '../assets/Atencion.png';
 import BackgroundHomeImg from '../assets/bg-home.png';
 
-export const Dashboard = ({ userRole, isLogged }) => {
+export const Dashboard = () => {
   const [cabins, setCabins] = useState([]);
   const [alert, setAlert] = useState({ message: '', type: '' });
   const navigate = useNavigate();
@@ -40,6 +40,7 @@ export const Dashboard = ({ userRole, isLogged }) => {
     }
     navigate(`/BookingForm/${cabinId}`);
   };
+  
 
   return (
     <div>
@@ -53,7 +54,7 @@ export const Dashboard = ({ userRole, isLogged }) => {
         </div>
       )}
 
-      <CustomNavbar userRole={userRole} isLogged={isLogged} />
+      <CustomNavbar />
 
       <div className="bg-home" style={{ backgroundImage: `url(${BackgroundHomeImg})` }}>
       <div className="left-container"></div>
@@ -198,35 +199,6 @@ export const Dashboard = ({ userRole, isLogged }) => {
             </Col>
           </Row>
         </Container>
-
-        <style jsx>{`
-          .linea-titulo {
-            flex: 1;
-            height: 2px;
-            background-color: #2c3e50;
-            max-width: 500px;
-          }
-          .conocenos-card {
-            background: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: default;
-          }
-          .conocenos-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-          }
-          .icon-hover {
-            transition: transform 0.3s ease;
-          }
-          .conocenos-card:hover .icon-hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.15));
-          }
-          .subtitulo {
-            color: #0B5ED7;
-            font-weight: 600;
-          }
-        `}</style>
       </section>
 
       <section id="contacto" style={{ padding: "4rem 0", backgroundColor: "#e9ecef", minHeight: "100vh" }}>
@@ -304,15 +276,6 @@ export const Dashboard = ({ userRole, isLogged }) => {
             </Col>
           </Row>
         </Container>
-
-        <style jsx>{`
-          .linea-titulo {
-            flex: 1;
-            height: 2px;
-            background-color: #2c3e50;
-            max-width: 600px;
-          }
-        `}</style>
       </section>
 
       <Footer/>

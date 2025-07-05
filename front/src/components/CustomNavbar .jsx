@@ -1,16 +1,23 @@
+import { jwtDecode } from 'jwt-decode';
 import { Button, Container, Nav, Navbar} from 'react-bootstrap';
 import { Link, Links, useNavigate } from 'react-router-dom';
 
 
-export const CustomNavbar  = ({ userRole, isLogged }) => {
+export const CustomNavbar  = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  let role = "user";
   
+  if (token) {
+    role = jwtDecode(token)?.role || "user";
+  }
+  console.log(role);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     navigate("/login");               
   };
-
   return (
     <Navbar bg="light" expand="lg" sticky="top">
       <Container>
@@ -26,14 +33,14 @@ export const CustomNavbar  = ({ userRole, isLogged }) => {
           </Nav>
 
           <div className="d-flex align-items-center gap-2">
-            {(userRole === "admin") && (
+            {(role === "admin") && (
               <Link to="/adminPanel">
                 <Button variant="warning" size="sm">
                   Panel de Administración
                 </Button>
               </Link>
             )}
-            {isLogged 
+            {token 
             ? <Button onClick={handleLogout} variant="outline-danger" size="sm" >
                 Cerrar sesión
               </Button>

@@ -7,7 +7,7 @@ import BackgroundImg from '../assets/background-img.png';
 import { Form, Button, Card, Container } from 'react-bootstrap';
 
 
-export const Login = ({ setIsLogged, setUserRole }) => {
+export const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({ email: false, password: false });
     const [alert, setAlert] = useState({ message: '', type: '' });
@@ -75,12 +75,7 @@ export const Login = ({ setIsLogged, setUserRole }) => {
 
                 const data = await response.json();
                 localStorage.setItem("token", data.token);
-                localStorage.setItem("userId", data.user.id);
 
-                const decoded = jwtDecode(data.token);
-                setUserRole(decoded.role);
-
-                setIsLogged(true);
                 setAlert({ message: "Inicio de sesión exitoso", type: "success" });
                 
 

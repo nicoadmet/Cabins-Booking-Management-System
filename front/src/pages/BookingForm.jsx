@@ -1,6 +1,7 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
+import { jwtDecode } from "jwt-decode";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,6 +11,7 @@ registerLocale("es", es);
 
 export const BookingForm = () => {
   const { id } = useParams();
+  const isLogged = !!localStorage.getItem("token");
   const navigate = useNavigate();
   const [cabin, setCabin] = useState(null);
   const [startDate, setStartDate] = useState(null);
@@ -42,16 +44,30 @@ export const BookingForm = () => {
     }
   }, [alert, navigate]);
 
+  const getStayDays = () => {
+    if (!startDate || !endDate) return 0;
+    const diffTime = endDate.getTime() - startDate.getTime(); // Diferencia en milisegundos
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convertir a días
+    return diffDays > 0 ? diffDays : 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const userId = localStorage.getItem("userId");
+    if (!isLogged) {
+      setAlert({ message: "Debes iniciar sesión para realizar una reserva.", type: "danger" });
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    const userId = jwtDecode(token)?.id;
 
     const body = {
       cabinId: id,
       userId,
       startDate: startDate ? startDate.toISOString().split("T")[0] : "",
-      endDate: endDate ? endDate.toISOString().split("T")[0] : ""
+      endDate: endDate ? endDate.toISOString().split("T")[0] : "",
+      totalPrice: getStayDays() * (cabin.pricePerNight || 0)
     };
 
     try {
@@ -99,12 +115,12 @@ export const BookingForm = () => {
         <Container className="my-5">
           <h2>{cabin.name}</h2>
           <Row>
-            <Col md={6}>
+            <Col md={7}>
               <div>
                 <img
                   src={cabin.imageUrl}
                   alt={cabin.name}
-                  style={{ width: "100%", height: "auto", borderRadius: "10px", marginBottom: "1rem" }}
+                  style={{ width: "100%", height: "425px", borderRadius: "10px", marginBottom: "1rem", objectFit: "cover" }}
                 />
               </div>
 
@@ -137,7 +153,7 @@ export const BookingForm = () => {
                   </div>
                   <div className="d-flex flex-column align-items-center">
                     <i className="bi bi-snow fs-2 text-secondary"></i>
-                    <span>Aire Acondicionado</span>
+                    <span>Aire Acond.</span>
                   </div>
                   <div className="d-flex flex-column align-items-center">
                     <i className="bi bi-car-front fs-2 text-secondary"></i>
@@ -185,44 +201,57 @@ export const BookingForm = () => {
             </Col>
 
             <Col md={3}>
-              <Card className="p-4 shadow">
-                <Form onSubmit={handleSubmit}>
-                  <Row className="mb-3">
-                    <Col md={6}>
-                      <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        selectsStart
-                        startDate={startDate}
-                        endDate={endDate}
-                        minDate={new Date()}
-                        dateFormat="dd/MM/yyyy"
-                        placeholderText="Elegir fecha"
-                        locale="es"
-                        className="form-control"
-                      />
-                    </Col>
-                    <Col md={6}>
-                      <DatePicker
-                        selected={endDate}
-                        onChange={(date) => setEndDate(date)}
-                        selectsEnd
-                        startDate={startDate}
-                        endDate={endDate}
-                        minDate={new Date()}
-                        dateFormat="dd/MM/yyyy"
-                        placeholderText="Elegir fecha"
-                        locale="es"
-                        className="form-control"
-                      />
-                    </Col>
-                  </Row>
+              <Card className="p-3 shadow-sm rounded-4 border-0 bg-light booking-form" style={{ height: '425px' }}>
+                <div className="text-center">
+                  <p className="mb-0 small text-muted">Precio por noche</p>
+                  <h4 className="fw-bold text-primary">${cabin.pricePerNight}</h4>
+                </div>
 
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className="mt-4 w-100"
-                  >
+                <hr />
+
+                <Form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <Form.Label className="fw-semibold small">Fecha de inicio</Form.Label>
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={new Date()}
+                      dateFormat="dd/MM/yyyy"
+                      placeholderText="Elegir"
+                      locale="es"
+                      className="form-control form-control-sm"
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <Form.Label className="fw-semibold small">Fecha de fin</Form.Label>
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={new Date()}
+                      dateFormat="dd/MM/yyyy"
+                      placeholderText="Elegir"
+                      locale="es"
+                      className="form-control form-control-sm"
+                    />
+                  </div>
+
+                  <hr />
+
+                  <div className="mb-3 text-center">
+                    <small className="text-muted">Estadía: </small>
+                    <strong>{getStayDays()} {getStayDays() === 1 ? "día" : "días"}</strong> <br />
+                    <small className="text-muted">Total estimado: </small> 
+                    <strong>${getStayDays() * (cabin.pricePerNight || 0)}</strong>
+                  </div>
+
+                  <Button type="submit" variant="primary" className="w-100 mt-2">
                     Reservar
                   </Button>
                 </Form>

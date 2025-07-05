@@ -62,7 +62,7 @@ export const updateBooking = async (req, res) => {
 }
 
 export const createBooking = async (req, res) => {
-  const { startDate, endDate, userId, cabinId } = req.body;
+  const { startDate, endDate, totalPrice, userId, cabinId } = req.body;
 
   try {
     //validar que no sea una fecha pasada
@@ -119,7 +119,7 @@ export const createBooking = async (req, res) => {
     }
 
     const newBooking = await Booking.create({
-      startDate, endDate, userId, cabinId
+      startDate, endDate, totalPrice, userId, cabinId
     });
 
     res.status(201).json(newBooking);

@@ -15,7 +15,7 @@ import AdminBookings from "./pages/AdminBookings";
 import AdminRoute from "./components/AdminRoute";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(false);
+ 
   const [userRole, setUserRole] = useState(null);
 
   return (
@@ -23,9 +23,9 @@ function App() {
       <Routes>
         {/* Rutas públicas */}
         <Route path='/register' element={<Register />} />
-        <Route path='/' element={<Dashboard userRole={userRole} isLogged={isLogged}/>} />
+        <Route path='/' element={<Dashboard />} />
         <Route path='/login' element={
-          <Login setIsLogged={setIsLogged} setUserRole={setUserRole} />
+          <Login />
         } />
 
         <Route path='/bookings' element={<UserBookings />} />
