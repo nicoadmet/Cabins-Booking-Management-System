@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
+import CustomNavbar from "../components/CustomNavbar ";
+ 
 const UserBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,13 +60,12 @@ const UserBookings = () => {
   if (loading) return <p className="text-center">Cargando reservas...</p>;
 
   return (
-    <div className="container py-5">
+    <div>
+      <CustomNavbar />
+
       <div className="position-absolute top-0 start-0 m-4">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          &larr; Volver
-        </Link>
       </div>
-      <h2 className="mb-4 fw-bold text-center" style={{ color: "#2c3e50" }}>
+      <h2 className="mt-4 mb-4 fw-bold text-center" style={{ color: "#2c3e50" }}>
         Mis Reservas
       </h2>
       {bookings.length === 0 ? (

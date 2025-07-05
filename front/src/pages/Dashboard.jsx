@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Container, Row, Col, Card, Button, Nav } from "react-bootstrap";
 
 import CustomNavbar from "../components/CustomNavbar ";
@@ -13,9 +13,15 @@ import BackgroundHomeImg from '../assets/bg-home.png';
 export const Dashboard = () => {
   const [cabins, setCabins] = useState([]);
   const [alert, setAlert] = useState({ message: '', type: '' });
+
   const navigate = useNavigate();
+
   const baseUrl = import.meta.env.VITE_API_URL;
 
+  const [searchParams] = useSearchParams();
+  const scrollTo = searchParams.get('scroll');
+  
+  //get cabins
   useEffect(() => {
     fetch(`${baseUrl}/api/cabin`)
       .then((res) => res.json())
@@ -26,12 +32,24 @@ export const Dashboard = () => {
       });
   }, []);
 
+  //alerta
   useEffect(() => {
     if (alert.message) {
       const timeout = setTimeout(() => setAlert({ message: '', type: '' }), 3000);
       return () => clearTimeout(timeout);
     }
   }, [alert]);
+
+  //scroll
+  useEffect(() => {
+    if (scrollTo) {
+      const section = document.getElementById(scrollTo);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [scrollTo]);
+
 
   const handleReserve = (cabinId, isAvailable) => {
     if (!isAvailable) {

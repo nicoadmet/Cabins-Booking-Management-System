@@ -1,10 +1,14 @@
 import { jwtDecode } from 'jwt-decode';
 import { Button, Container, Nav, Navbar} from 'react-bootstrap';
-import { Link, Links, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 
 export const CustomNavbar  = () => {
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   const token = localStorage.getItem("token");
   let role = "user";
   
@@ -21,14 +25,24 @@ export const CustomNavbar  = () => {
   return (
     <Navbar bg="light" expand="lg" sticky="top">
       <Container>
-        <Navbar.Brand href="#">EcoCabañas</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">EcoCabañas</Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
           <Nav className="me-auto">
-            <Nav.Link href="#cabañas">Cabañas</Nav.Link>
-            <Nav.Link href="#conocenos">Conocenos</Nav.Link>
-            <Nav.Link href="#contacto">Contacto</Nav.Link>
+            {isHomePage ? (
+              <>
+              <Nav.Link href="#cabañas">Cabañas</Nav.Link>
+              <Nav.Link href="#conocenos">Conocenos</Nav.Link>
+              <Nav.Link href="#contacto">Contacto</Nav.Link>     
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/?scroll=cabañas">Cabañas</Nav.Link>
+                <Nav.Link as={Link} to="/?scroll=conocenos">Conocenos</Nav.Link>
+                <Nav.Link as={Link} to="/?scroll=contacto">Contacto</Nav.Link>  
+              </>
+            )}
             <Nav.Link as={Link} to="/bookings">Mis Reservas</Nav.Link>
           </Nav>
 

@@ -1,7 +1,8 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
+import CustomNavbar from "../components/CustomNavbar ";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -94,10 +95,7 @@ export const BookingForm = () => {
   if (!cabin) return <p className="text-center mt-5">Cargando cabaña...</p>;
 
   return (
-    <div 
-        className="position-relative d-flex justify-content-center align-items-center"
-        style={{ minHeight: '100vh' }}
-    >
+    <div>
         {alert.message && (
             <div
             className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
@@ -108,9 +106,7 @@ export const BookingForm = () => {
             </div>
         )}
 
-        <div className="position-absolute top-0 start-0 m-4">
-          <Link to="/" style={{ textDecoration: 'none' }}>&larr; Volver</Link>
-        </div>
+        <CustomNavbar />
 
         <Container className="my-5">
           <h2>{cabin.name}</h2>
