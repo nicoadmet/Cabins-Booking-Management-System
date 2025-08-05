@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { validateRegister } from "../utils/ValidationsRegister";
 import { useNavigate, Link } from "react-router-dom";
 import { Form, Button, Card, Container } from 'react-bootstrap';
-import BackgroundImg from '../assets/background-img.png';
 
 export const Register = () => {
     const [formData, setFormData] = useState({ name: "", email: "", password: "" });
@@ -86,7 +85,6 @@ export const Register = () => {
     return (
         <div className="position-relative"
             style={{
-                backgroundImage:`url(${BackgroundImg})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',

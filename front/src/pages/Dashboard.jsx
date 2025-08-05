@@ -83,7 +83,7 @@ export const Dashboard = () => {
           <p>Explorá nuestras cabañas ecológicas.</p>
           <div className="button-group">
             <Nav.Link href="#cabañas">
-              <Button variant="outline-primary">Explorar Más</Button>
+              <Button variant="primary">Explorar Más</Button>
             </Nav.Link>
           </div>
         </div>

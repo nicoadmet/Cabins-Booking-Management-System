@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { validateLogin } from "../utils/ValidationsLogin";
-import { jwtDecode } from "jwt-decode";
-import BackgroundImg from '../assets/background-img.png';
 
 import { Form, Button, Card, Container } from 'react-bootstrap';
 
@@ -20,7 +18,6 @@ export const Login = () => {
 
     useEffect(() => {
         localStorage.removeItem("token");
-        localStorage.removeItem("userId");
     }, []);
 
     useEffect(() => {
@@ -89,7 +86,7 @@ export const Login = () => {
     return (
         <div className="position-relative"
             style={{
-                backgroundImage:`url(${BackgroundImg})`,
+
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',

@@ -1,81 +1,110 @@
+import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { Button, Container, Nav, Navbar} from 'react-bootstrap';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import {
+  FaHome,
+  FaInfoCircle,
+  FaPhoneAlt,
+  FaClipboardList,
+  FaUserCircle,
+  FaSignInAlt,
+  FaSignOutAlt
+} from 'react-icons/fa';
 
-
-export const CustomNavbar  = () => {
+export const CustomNavbar = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
-  const token = localStorage.getItem("token");
-  let role = "user";
-  
+  const token = localStorage.getItem('token');
+  let role = 'user';
+
   if (token) {
-    role = jwtDecode(token)?.role || "user";
+    try {
+      role = jwtDecode(token)?.role || 'user';
+    } catch (error) {
+      console.error('Error al decodificar token:', error);
+    }
   }
-  console.log(role);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    navigate("/login");               
+    localStorage.removeItem('token');
+
+    navigate('/login');
   };
+
+  // Estado para detectar si se hizo scroll
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <Navbar bg="light" expand="lg" sticky="top">
+    <Navbar
+      expand="lg"
+      sticky="top"
+      className={`py-3 transition-navbar ${scrolled ? 'bg-white shadow-sm' : 'bg-light'}`}
+    >
       <Container>
-        <Navbar.Brand as={Link} to="/">EcoCabañas</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-2">
+          <span className="fw-bold fs-4 text-success">EcoCabañas</span>
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
           <Nav className="me-auto">
             {isHomePage ? (
               <>
-              <Nav.Link href="#cabañas">Cabañas</Nav.Link>
-              <Nav.Link href="#conocenos">Conocenos</Nav.Link>
-              <Nav.Link href="#contacto">Contacto</Nav.Link>     
+                <Nav.Link href="#cabañas"><FaHome className="me-1" />Cabañas</Nav.Link>
+                <Nav.Link href="#conocenos"><FaInfoCircle className="me-1" />Conocenos</Nav.Link>
+                <Nav.Link href="#contacto"><FaPhoneAlt className="me-1" />Contacto</Nav.Link>
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/?scroll=cabañas">Cabañas</Nav.Link>
-                <Nav.Link as={Link} to="/?scroll=conocenos">Conocenos</Nav.Link>
-                <Nav.Link as={Link} to="/?scroll=contacto">Contacto</Nav.Link>  
+                <Nav.Link as={Link} to="/?scroll=cabañas"><FaHome className="me-1" />Cabañas</Nav.Link>
+                <Nav.Link as={Link} to="/?scroll=conocenos"><FaInfoCircle className="me-1" />Conocenos</Nav.Link>
+                <Nav.Link as={Link} to="/?scroll=contacto"><FaPhoneAlt className="me-1" />Contacto</Nav.Link>
               </>
             )}
-            <Nav.Link as={Link} to="/bookings">Mis Reservas</Nav.Link>
+            <Nav.Link as={Link} to="/bookings"><FaClipboardList className="me-1" />Mis Reservas</Nav.Link>
           </Nav>
 
           <div className="d-flex align-items-center gap-2">
-            {(role === "admin") && (
+            {role === 'admin' && (
               <Link to="/adminPanel">
                 <Button variant="warning" size="sm">
                   Panel de Administración
                 </Button>
               </Link>
             )}
-            {token 
-            ? <Button onClick={handleLogout} variant="outline-danger" size="sm" >
-                Cerrar sesión
+
+            {token ? (
+              <Button onClick={handleLogout} variant="outline-danger" size="sm">
+                <FaSignOutAlt className="me-1" />Cerrar sesión
               </Button>
-            : <div style={{ display: 'flex', gap: '0.5rem' }}>
+            ) : (
+              <div className="d-flex gap-2">
                 <Link to="/login">
-                  <Button className='btn-primary' size="sm">
-                    Iniciar Sesión
+                  <Button variant="primary" size="sm">
+                    <FaSignInAlt className="me-1" />Iniciar Sesión
                   </Button>
                 </Link>
                 <Link to="/register">
                   <Button variant="outline-primary" size="sm">
-                    Registrarse
+                    <FaUserCircle className="me-1" />Registrarse
                   </Button>
                 </Link>
-              </div> 
-            }
+              </div>
+            )}
           </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
-}
+  );
+};
 
-export default CustomNavbar ;
+export default CustomNavbar;

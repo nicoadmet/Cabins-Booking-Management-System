@@ -1,3 +1,27 @@
+/* ===== NAVBAR ===== */
+.transition-navbar {
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar .nav-link {
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+  color: #2e8b57;
+}
+
+.navbar .btn-primary {
+  background-color: #2e8b57;
+  border-color: #2e8b57;
+}
+
+.navbar .btn-primary:hover {
+  background-color: #256b45;
+  border-color: #256b45;
+}
+
 /* ===== DASHBOARD ===== */
 #cabañas, #conocenos, #contacto {
   scroll-margin-top: 100px;
@@ -16,7 +40,7 @@
 /* ===== HOMEPAGE LAYOUT ===== */
 .bg-home {
   display: flex;
-  height: 100vh;
+  height: 92.5vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

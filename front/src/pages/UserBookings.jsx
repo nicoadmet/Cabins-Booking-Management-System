@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Row, Col, Button } from "react-bootstrap";
+import { jwtDecode } from 'jwt-decode';
 import CustomNavbar from "../components/CustomNavbar ";
  
 const UserBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+
   const baseUrl = import.meta.env.VITE_API_URL;
 
+  const token = localStorage.getItem("token");
+  let userId;
+  
+  if (token) {
+    const decoded = jwtDecode(token);
+    userId = decoded.id;
+  }
+  console.log(userId);
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
+    if (!token) {
       alert("No hay usuario logueado.");
+      navigate("/login");
       return;
     }
 
