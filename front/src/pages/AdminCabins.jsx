@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 
+import { useAlert } from "../context/AlertContext";
+
 
 export const AdminCabins = () => {
   const [cabins, setCabins] = useState([]);
@@ -14,6 +16,7 @@ export const AdminCabins = () => {
     imageUrl: '' 
   })
   const [showForm, setShowForm] = useState(false);
+  const { setAlert } = useAlert();
   const baseUrl = import.meta.env.VITE_API_URL;
 
 
@@ -68,7 +71,7 @@ export const AdminCabins = () => {
 
       if (!response.ok) {
           const errorData = await response.json();
-          alert("Error: " + errorData.message);
+          setAlert({ message: errorData.message || "Error al guardar la cabaña", type: "error" });
           return;
       }
 
@@ -80,6 +83,7 @@ export const AdminCabins = () => {
       } else {
         //agrega la cabaña nueva a la lista
         setCabins([...cabins, savedCabin]);
+        setAlert({ message: "Cabaña agregada correctamente", type: "success" });
       }
 
       setShowForm(false);
@@ -94,7 +98,7 @@ export const AdminCabins = () => {
       });  
     } catch (error) {
       console.error(error);
-      alert("Hubo un problema guardando la cabaña.");
+      setAlert({ message: "Error al guardar la cabaña", type: "error" });
     }
   }
 
@@ -107,6 +111,7 @@ export const AdminCabins = () => {
         method: "DELETE",
       });
       setCabins(cabins.filter((cabin) => cabin.id !==id));
+      setAlert({ message: "Cabaña eliminada correctamente", type: "success" });
     } catch (error) {
       console.error("Error al eliminar cabaña:", error);
     }

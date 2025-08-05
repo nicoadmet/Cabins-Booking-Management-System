@@ -1,18 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { validateRegister } from "../utils/ValidationsRegister";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { Form, Button, Card, Container } from 'react-bootstrap';
+
+import { useAlert } from "../context/AlertContext";
 
 export const Register = () => {
     const [formData, setFormData] = useState({ name: "", email: "", password: "" });
     const [errors, setErrors] = useState({ name: false, email: false, password: false });
-    const [alert, setAlert] = useState({ message: '', type: '' });
+    const { alert, setAlert } = useAlert();
 
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
 
-    const navigate = useNavigate();
     const baseUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
@@ -20,18 +21,6 @@ export const Register = () => {
         localStorage.removeItem("role");
         localStorage.removeItem("userId");
     }, []);
-
-    useEffect(() => {
-        if (alert.message) {
-            const timeout = setTimeout(() => {
-                if (alert.type === 'success') {
-                    navigate("/login");
-                }
-                setAlert({ message: '', type: '' });
-            }, 3000);
-            return () => clearTimeout(timeout);
-        }
-    }, [alert, navigate]);
 
     const handleChange = (e) => {
         setFormData({
@@ -73,7 +62,7 @@ export const Register = () => {
                     return;
                 }
 
-                setAlert({ message: "Registro exitoso.", type: "success" });
+                setAlert({ message: "Registro exitoso.", type: "success", redirectTo: "/" });
 
             } catch (error) {
                 console.error("Error en el registro:", error);
@@ -95,16 +84,6 @@ export const Register = () => {
                 padding: '20px',
             }}
         >
-            {alert.message && (
-                <div
-                    className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
-                    style={{ zIndex: 9999, minWidth: '250px' }}
-                    role="alert"
-                >
-                    {alert.message}
-                </div>
-            )}
-
             <Container
                 className="d-flex justify-content-center align-items-center"
                 style={{ minHeight: '100vh' }}

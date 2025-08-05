@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import { useAlert } from "../context/AlertContext";
+
 
 export const AdminBookings = () => {
   const [bookings, setBooking] = useState([]);
   const [editingBooking, setEditingBooking] = useState(null);
-  const [alert, setAlert] = useState({ message: '', type: '' });
+  const { alert, setAlert } = useAlert();
+
   const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -14,13 +17,6 @@ export const AdminBookings = () => {
       .then(data => setBooking(data))
       .catch(error => console.error("Error al obtener reservas:", error));
   }, []);
-
-  useEffect(() => {
-    if (alert.message) {
-      const timeout = setTimeout(() => setAlert({ message: '', type: '' }), 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [alert]);
 
   const handleDelete = async (id) => {
     const confirm = window.confirm("¿Estás seguro que querés eliminar esta reserva?");
@@ -75,17 +71,7 @@ export const AdminBookings = () => {
 
   return (
     <div className="position-relative">
-
-      {alert.message && (
-        <div
-          className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
-          style={{ zIndex: 9999, minWidth: '250px' }}
-          role="alert"
-        >
-          {alert.message}
-        </div>
-      )}
-
+      
       <div className="position-absolute top-0 start-0 m-4">
         <Link to="/adminPanel" style={{ textDecoration: 'none' }}>&larr; Volver</Link>
       </div>

@@ -4,11 +4,15 @@ import { validateLogin } from "../utils/ValidationsLogin";
 
 import { Form, Button, Card, Container } from 'react-bootstrap';
 
+import { useAlert } from "../context/AlertContext"; // ajustá el path si es necesario
+
+
+
 
 export const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({ email: false, password: false });
-    const [alert, setAlert] = useState({ message: '', type: '' });
+    const { setAlert } = useAlert();
 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -19,18 +23,6 @@ export const Login = () => {
     useEffect(() => {
         localStorage.removeItem("token");
     }, []);
-
-    useEffect(() => {
-        if (alert.message) {
-            const timeout = setTimeout(() => {
-                if (alert.type === 'success') {
-                    navigate("/");
-                }
-                setAlert({ message: '', type: '' }); 
-            }, 3000); 
-            return () => clearTimeout(timeout);
-        }
-    }, [alert, navigate]);
 
     const handleChange = (e) => {
         setFormData({
@@ -73,8 +65,7 @@ export const Login = () => {
                 const data = await response.json();
                 localStorage.setItem("token", data.token);
 
-                setAlert({ message: "Inicio de sesión exitoso", type: "success" });
-                
+                setAlert({ message: "Inicio de sesión exitoso", type: "success", redirectTo: "/" });
 
             } catch (error) {
                 console.error("Error al hacer login:", error);
@@ -97,16 +88,6 @@ export const Login = () => {
                 padding: '20px',
             }}
         >
-            {alert.message && (
-                <div
-                    className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
-                    style={{ zIndex: 9999, minWidth: '250px' }}
-                    role="alert"
-                >
-                    {alert.message}
-                </div>
-            )}
-
             <Container
                 className="d-flex justify-content-center align-items-center"
                 style={{ height: '100vh', width: '100vh',  }}

@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { Row, Col, Button } from "react-bootstrap";
 import { jwtDecode } from 'jwt-decode';
 import CustomNavbar from "../components/CustomNavbar ";
+
+import { useAlert } from "../context/AlertContext";
  
 const UserBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { alert, setAlert } = useAlert();
 
   const navigate = useNavigate();
 
@@ -22,8 +25,7 @@ const UserBookings = () => {
   console.log(userId);
   useEffect(() => {
     if (!token) {
-      alert("No hay usuario logueado.");
-      navigate("/login");
+      setAlert({ message: "No hay usuario logueado.", type: "danger", redirectTo: "/login" });
       return;
     }
 
@@ -44,7 +46,7 @@ const UserBookings = () => {
         console.error("Error al obtener reservas:", error);
         setBookings([]);
         setLoading(false);
-        alert("No se pudieron obtener tus reservas.");
+        setAlert({ message: "No se pudieron obtener tus reservas.", type: "danger" });
       });
   }, []);
 
@@ -61,11 +63,11 @@ const UserBookings = () => {
           });
         }
         setBookings((prev) => prev.filter((booking) => booking.id !== bookingId));
-        alert("Reserva cancelada correctamente.");
+        setAlert({ message: "Reserva cancelada correctamente.", type: "success" });
       })
       .catch((error) => {
         console.error("Error al cancelar reserva:", error);
-        alert("No se pudo cancelar la reserva.");
+        setAlert({ message: "No se pudo cancelar la reserva.", type: "danger" });
       });
   };
 

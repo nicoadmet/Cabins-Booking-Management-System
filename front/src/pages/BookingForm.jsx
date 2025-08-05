@@ -1,8 +1,10 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, redirect } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
 import CustomNavbar from "../components/CustomNavbar ";
+
+import { useAlert } from "../context/AlertContext";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,7 +19,7 @@ export const BookingForm = () => {
   const [cabin, setCabin] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [alert, setAlert] = useState({ message: '', type: '' });
+  const { alert, setAlert } = useAlert();
   const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -33,18 +35,6 @@ export const BookingForm = () => {
       });
   }, [id]);
 
-  useEffect(() => {
-    if (alert.message) {
-      const timeout = setTimeout(() => {
-        if (alert.type === 'success') {
-          navigate("/");
-        }
-        setAlert({ message: '', type: '' });
-      }, 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [alert, navigate]);
-
   const getStayDays = () => {
     if (!startDate || !endDate) return 0;
     const diffTime = endDate.getTime() - startDate.getTime(); // Diferencia en milisegundos
@@ -56,7 +46,7 @@ export const BookingForm = () => {
     e.preventDefault();
 
     if (!isLogged) {
-      setAlert({ message: "Debes iniciar sesión para realizar una reserva.", type: "danger" });
+      setAlert({ message: "Debes iniciar sesión para realizar una reserva.", type: "danger", redirectTo: "/login" });
       return;
     }
 
@@ -84,7 +74,7 @@ export const BookingForm = () => {
         return;
       }
 
-      setAlert({ message: "Reserva realizada con éxito", type: "success" });
+      setAlert({ message: "Reserva realizada con éxito", type: "success", redirectTo: "/" });
 
     } catch (error) {
       console.error(error);
@@ -96,16 +86,6 @@ export const BookingForm = () => {
 
   return (
     <div>
-        {alert.message && (
-            <div
-            className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
-            style={{ zIndex: 9999, minWidth: '250px' }}
-            role="alert"
-            >
-            {alert.message}
-            </div>
-        )}
-
         <CustomNavbar />
 
         <Container className="my-5">

@@ -14,17 +14,24 @@ import AdminBookings from "./pages/AdminBookings";
 
 import AdminRoute from "./components/AdminRoute";
 
+import { AlertProvider } from "./context/AlertContext";
+import GlobalAlert from "./components/GlobalAlert";
+
+
 function App() {
  
   const [userRole, setUserRole] = useState(null);
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Rutas públicas */}
-        <Route path='/register' element={<Register />} />
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/login' element={
+      <AlertProvider>
+        <GlobalAlert />
+        
+        <Routes>
+          {/* Rutas públicas */}
+          <Route path='/register' element={<Register />} />
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/login' element={
           <Login />
         } />
 
@@ -39,8 +46,10 @@ function App() {
           <Route path='/adminBookings' element={<AdminBookings />} />
         </Route>
       </Routes>
-    </BrowserRouter>
-  );
+
+    </AlertProvider>
+  </BrowserRouter>
+);
 }
 
 export default App;

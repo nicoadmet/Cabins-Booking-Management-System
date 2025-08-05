@@ -3,14 +3,11 @@ import { jwtDecode } from 'jwt-decode';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  FaHome,
-  FaInfoCircle,
-  FaPhoneAlt,
-  FaClipboardList,
   FaUserCircle,
   FaSignInAlt,
   FaSignOutAlt
 } from 'react-icons/fa';
+
 
 export const CustomNavbar = () => {
   const navigate = useNavigate();
@@ -59,18 +56,18 @@ export const CustomNavbar = () => {
           <Nav className="me-auto">
             {isHomePage ? (
               <>
-                <Nav.Link href="#cabañas"><FaHome className="me-1" />Cabañas</Nav.Link>
-                <Nav.Link href="#conocenos"><FaInfoCircle className="me-1" />Conocenos</Nav.Link>
-                <Nav.Link href="#contacto"><FaPhoneAlt className="me-1" />Contacto</Nav.Link>
+                <Nav.Link href="#cabañas">Cabañas</Nav.Link>
+                <Nav.Link href="#conocenos">Conocenos</Nav.Link>
+                <Nav.Link href="#contacto">Contacto</Nav.Link>
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/?scroll=cabañas"><FaHome className="me-1" />Cabañas</Nav.Link>
-                <Nav.Link as={Link} to="/?scroll=conocenos"><FaInfoCircle className="me-1" />Conocenos</Nav.Link>
-                <Nav.Link as={Link} to="/?scroll=contacto"><FaPhoneAlt className="me-1" />Contacto</Nav.Link>
+                <Nav.Link as={Link} to="/?scroll=cabañas">Cabañas</Nav.Link>
+                <Nav.Link as={Link} to="/?scroll=conocenos">Conocenos</Nav.Link>
+                <Nav.Link as={Link} to="/?scroll=contacto">Contacto</Nav.Link>
               </>
             )}
-            <Nav.Link as={Link} to="/bookings"><FaClipboardList className="me-1" />Mis Reservas</Nav.Link>
+            <Nav.Link as={Link} to="/bookings">Mis Reservas</Nav.Link>
           </Nav>
 
           <div className="d-flex align-items-center gap-2">

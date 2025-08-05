@@ -5,6 +5,8 @@ import { Container, Row, Col, Card, Button, Nav } from "react-bootstrap";
 import CustomNavbar from "../components/CustomNavbar ";
 import Footer from "../components/Footer";
 
+import { useAlert } from "../context/AlertContext";
+
 import naturalezaImg from '../assets/Naturaleza.png';
 import comodidadImg from '../assets/Comodidad.png';
 import atencionImg from '../assets/Atencion.png';
@@ -12,7 +14,7 @@ import BackgroundHomeImg from '../assets/bg-home.png';
 
 export const Dashboard = () => {
   const [cabins, setCabins] = useState([]);
-  const [alert, setAlert] = useState({ message: '', type: '' });
+  const { alert, setAlert } = useAlert();
 
   const navigate = useNavigate();
 
@@ -31,14 +33,6 @@ export const Dashboard = () => {
         setAlert({ message: "Error al cargar las cabañas.", type: "danger" });
       });
   }, []);
-
-  //alerta
-  useEffect(() => {
-    if (alert.message) {
-      const timeout = setTimeout(() => setAlert({ message: '', type: '' }), 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [alert]);
 
   //scroll
   useEffect(() => {
@@ -62,15 +56,6 @@ export const Dashboard = () => {
 
   return (
     <div>
-      {alert.message && (
-        <div
-          className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
-          style={{ zIndex: 9999, minWidth: '250px' }}
-          role="alert"
-        >
-          {alert.message}
-        </div>
-      )}
 
       <CustomNavbar />
 

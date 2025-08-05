@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { useAlert } from "../context/AlertContext";
 
 export const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
-  const [alert, setAlert] = useState({ message: '', type: '' });
+  const { setAlert } = useAlert(); 
   const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -13,13 +14,6 @@ export const AdminUsers = () => {
       .then(data => setUsers(data))
       .catch(error => console.error("Error al obtener usuarios:", error));
   }, []);
-
-  useEffect(() => {
-    if (alert.message) {
-      const timeout = setTimeout(() => setAlert({ message: '', type: '' }), 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [alert]);
 
   const handleDelete = async (id) => {
     const confirm = window.confirm("¿Estás seguro que querés eliminar este usuario?");
@@ -41,7 +35,7 @@ export const AdminUsers = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${baseUrl}/api/user${editingUser.id}`, {
+      const response = await fetch(`${baseUrl}/api/user/${editingUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -67,16 +61,6 @@ export const AdminUsers = () => {
 
   return (
     <div className="position-relative">
-
-      {alert.message && (
-        <div
-          className={`alert alert-${alert.type} position-fixed top-0 end-0 m-4 shadow rounded`}
-          style={{ zIndex: 9999, minWidth: '250px' }}
-          role="alert"
-        >
-          {alert.message}
-        </div>
-      )}
 
       <div className="position-absolute top-0 start-0 m-4">
         <Link to="/adminPanel" style={{ textDecoration: 'none' }}>&larr; Volver</Link>
