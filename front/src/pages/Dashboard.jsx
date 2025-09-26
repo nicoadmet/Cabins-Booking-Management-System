@@ -10,7 +10,7 @@ import { useAlert } from "../context/AlertContext";
 import naturalezaImg from '../assets/Naturaleza.png';
 import comodidadImg from '../assets/Comodidad.png';
 import atencionImg from '../assets/Atencion.png';
-import BackgroundHomeImg from '../assets/bg-home.png';
+import homeImg from '../assets/home-img.png';
 
 export const Dashboard = () => {
   const [cabins, setCabins] = useState([]);
@@ -59,23 +59,29 @@ export const Dashboard = () => {
 
       <CustomNavbar />
 
-      <div className="bg-home" style={{ backgroundImage: `url(${BackgroundHomeImg})` }}>
-      <div className="left-container"></div>
+      <Container className="home" style={{ height: "90vh", justifyContent: "center", display: "flex", alignItems: "center" }}>
+        <Row className="align-items-center mb-5">
 
-      <div className="right-container">
-        <div className="content-box">
-          <h1 className="fw-bold">Bienvenido a EcoCabañas</h1>
-          <p>Explorá nuestras cabañas ecológicas.</p>
-          <div className="button-group">
-            <Nav.Link href="#cabañas">
-              <Button variant="primary">Explorar Más</Button>
-            </Nav.Link>
-          </div>
-        </div>
-      </div>
-    </div>
+          <Col md={6} className="text-start px-5 content-box">
+            <h1 className="fw-bold text-success">Eco Cabañas</h1>
+            <p className="lead text-muted mt-3">
+              Viví una experiencia única en plena naturaleza.  
+              Disfrutá de nuestras cabañas y reservá tu estadía ahora mismo.
+            </p>
+          </Col>
 
-      <section id="cabañas" style={{ padding: "4rem 0", minHeight: "100vh" }}>
+          <Col md={6} className="d-flex justify-content-center shadow-ground">
+            <img
+              src={homeImg}
+              alt="Eco Cabañas"
+              className="home-img"
+              style={{ maxHeight: "450px", objectFit: "cover" }}
+            />
+          </Col>
+        </Row>
+      </Container>
+
+      <section id="cabanas" style={{ padding: "4rem 0", minHeight: "100vh" }}>
         <Container>
           <div className="d-flex align-items-center justify-content-center mb-5">
             <div className="linea-titulo me-3"></div>
@@ -122,7 +128,7 @@ export const Dashboard = () => {
 
       <section
         id="conocenos"
-        style={{ padding: "4rem 0", backgroundColor: "#f0f4f8", minHeight: "100vh" }}
+        style={{ padding: "4rem 0", backgroundColor: "#ecececff", minHeight: "100vh" }}
       >
         <Container>
           <div className="d-flex align-items-center justify-content-center mb-5">
@@ -204,7 +210,7 @@ export const Dashboard = () => {
         </Container>
       </section>
 
-      <section id="contacto" style={{ padding: "4rem 0", backgroundColor: "#e9ecef", minHeight: "100vh" }}>
+      <section id="contacto" style={{ padding: "4rem 0", backgroundColor: "#ffffffff", minHeight: "100vh" }}>
         <Container>
           <div className="d-flex align-items-center justify-content-center mb-5">
             <div className="linea-titulo me-3"></div>

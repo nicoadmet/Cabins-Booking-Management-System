@@ -12,17 +12,30 @@
   color: #2e8b57;
 }
 
-.navbar .btn-primary {
-  background-color: #2e8b57;
-  border-color: #2e8b57;
-}
 
-.navbar .btn-primary:hover {
-  background-color: #256b45;
-  border-color: #256b45;
-}
 
 /* ===== DASHBOARD ===== */
+.shadow-ground {
+  position: relative;
+  display: inline-block;
+}
+
+.shadow-ground::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 20px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0.4) 0%,
+    rgba(0,0,0,0) 80%
+  );
+  filter: blur(4px);
+}
+
 #cabañas, #conocenos, #contacto {
   scroll-margin-top: 100px;
 }
@@ -153,31 +166,28 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   /* Dashboard Home */
-  .bg-home {
-    flex-direction: column;
-    background-position: 0%;
-  }
-
-  .left-container,
-  .right-container {
-    flex: none;
-    width: 100%;
-    height: auto;
+  .home-img {
+    width: 80%;
   }
 
   .content-box {
     max-width: 100%;
-    padding: 10px 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
   }
 
   .content-box h1 {
-    font-size: 2rem;
-    color: rgb(255, 255, 255);
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  .content-box p {
+    text-align: center;
   }
 
   .content-box p {
     font-size: 1rem;
-    color: white;
   }
   
 

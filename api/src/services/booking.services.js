@@ -17,7 +17,7 @@ export const getBookingsByUser = async (req, res) => {
       where: { userId },
       include: {
         model: Cabin,
-        attributes: ["name"] // traer solo el nombre
+        attributes: ["name"] ["urlImage"] // traer solo el nombre
       }
     });
     res.json(bookings);

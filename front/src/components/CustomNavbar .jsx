@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import {
-  FaUserCircle,
-  FaSignInAlt,
-  FaSignOutAlt
-} from 'react-icons/fa';
+import { FaUserCircle, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 
 
 export const CustomNavbar = () => {
@@ -44,7 +40,7 @@ export const CustomNavbar = () => {
     <Navbar
       expand="lg"
       sticky="top"
-      className={`py-3 transition-navbar ${scrolled ? 'bg-white shadow-sm' : 'bg-light'}`}
+      className={`py-3 transition-navbar ${scrolled ? 'bg-white shadow-sm' : 'bg-white'}`}
     >
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center gap-2">
@@ -56,7 +52,7 @@ export const CustomNavbar = () => {
           <Nav className="me-auto">
             {isHomePage ? (
               <>
-                <Nav.Link href="#cabañas">Cabañas</Nav.Link>
+                <Nav.Link href="#cabanas">Cabañas</Nav.Link>
                 <Nav.Link href="#conocenos">Conocenos</Nav.Link>
                 <Nav.Link href="#contacto">Contacto</Nav.Link>
               </>
@@ -86,13 +82,13 @@ export const CustomNavbar = () => {
             ) : (
               <div className="d-flex gap-2">
                 <Link to="/login">
-                  <Button variant="primary" size="sm">
-                    <FaSignInAlt className="me-1" />Iniciar Sesión
+                  <Button variant="success" size="ms">
+                    Iniciar Sesión
                   </Button>
                 </Link>
                 <Link to="/register">
-                  <Button variant="outline-primary" size="sm">
-                    <FaUserCircle className="me-1" />Registrarse
+                  <Button variant="outline-success" size="ms">
+                    Registrarse
                   </Button>
                 </Link>
               </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router-dom";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Container } from "react-bootstrap";
 import { jwtDecode } from 'jwt-decode';
 import CustomNavbar from "../components/CustomNavbar ";
 
@@ -76,52 +76,53 @@ const UserBookings = () => {
   return (
     <div>
       <CustomNavbar />
-
-      <div className="position-absolute top-0 start-0 m-4">
-      </div>
-      <h2 className="mt-4 mb-4 fw-bold text-center" style={{ color: "#2c3e50" }}>
-        Mis Reservas
-      </h2>
-      {bookings.length === 0 ? (
-        <p className="text-center text-muted">No tenés reservas aún.</p>
-      ) : (
-        <Row className="gy-4">
-          {bookings.map((booking) => (
-            <Col md={6} lg={4} key={booking.id}>
-              <div className="reserva-card p-4 rounded-4 h-100 shadow-sm d-flex flex-column justify-content-between">
-                <div>
-                  <div className="icono-container mb-3">
-                    <span style={{ fontSize: "1.5rem" }}>🏡</span>
+      <Container>
+        <h2 className="mt-4 mb-4 fw-bold text-center" style={{ color: "#2c3e50" }}>
+          Mis Reservas
+        </h2>
+        {bookings.length === 0 ? (
+          <p className="text-center text-muted">No tenés reservas aún.</p>
+        ) : (
+          <Row className="gy-4">
+            {bookings.map((booking) => (
+              <Col md={6} lg={4} key={booking.id}>
+                <div className="reserva-card p-4 rounded-4 h-100 shadow-sm d-flex  flex-column justify-content-between"  style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${booking.cabin?.imageUrl})`, backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "rgba(255, 255, 255, 0.5)" }}>
+                  <div>
+                    <div className="icono-container mb-3">
+                      <span style={{ fontSize: "1.5rem" }}>🏡</span>
+                    </div>
+                    <h5 className="fw-bold mb-2 text-white">
+                      {booking.cabin?.name || "Cabaña desconocida"}
+                    </h5>
+                    <p className="mb-1 d-flex align-items-center text-white">
+                      <span className="me-2" style={{ fontSize: "1.2rem" }}>
+                        📅
+                      </span>
+                      <strong>Desde:</strong>&nbsp;{booking.startDate}
+                    </p>
+                    <p className="mb-1 d-flex align-items-center text-white">
+                      <span className="me-2" style={{ fontSize: "1.2rem" }}>
+                        📅
+                      </span>
+                      <strong>Hasta:</strong>&nbsp;{booking.endDate}
+                    </p>
                   </div>
-                  <h5 className="fw-bold mb-2" style={{ color: "#1c3d3d" }}>
-                    {booking.cabin?.name || "Cabaña desconocida"}
-                  </h5>
-                  <p className="mb-1 d-flex align-items-center text-muted">
-                    <span className="me-2" style={{ fontSize: "1.2rem" }}>
-                      📅
-                    </span>
-                    <strong>Desde:</strong>&nbsp;{booking.startDate}
-                  </p>
-                  <p className="mb-1 d-flex align-items-center text-muted">
-                    <span className="me-2" style={{ fontSize: "1.2rem" }}>
-                      📅
-                    </span>
-                    <strong>Hasta:</strong>&nbsp;{booking.endDate}
-                  </p>
-                </div>
 
-                <Button
-                  variant="outline-danger"
-                  className="mt-3 w-100"
-                  onClick={() => handleCancel(booking.id)}
-                >
-                  Cancelar reserva
-                </Button>
-              </div>
-            </Col>
-          ))}
-        </Row>
-      )}
+                  <Button
+                    variant="outline-danger"
+                    className="mt-3 w-100 text-white"
+                    onClick={() => handleCancel(booking.id)}
+                  >
+                    Cancelar reserva
+                  </Button>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        )}
+
+      </Container>
+
 
       <style jsx="true">{`
         .reserva-card {
